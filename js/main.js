@@ -65,11 +65,24 @@ function init() {
 			video: true,
 		},
 		onCamReady,
-		function(error) {
+		function (error) {
 			prompt.innerHTML = 'Unable to capture WebCam. Please reload the page or try using latest Chrome.';
 			return;
 		}
 	);
+
+	enableMIDI();
+}
+
+function enableMIDI() {
+	WebMidi.enable(function (err) {
+		if (err) {
+			console.log("WebMidi could not be enabled.", err);
+		} else {
+			console.log("WebMidi enabled!");
+			console.log("Inputs:", WebMidi.inputs);
+		}
+	});
 }
 
 function onCamReady(stream) {
@@ -85,12 +98,22 @@ function onCamReady(stream) {
 
 function onCamMetaDataLoaded() {
 	// stop the user getting a text cursor
-	document.onselectstart = function() {
+	document.onselectstart = function () {
 		return false;
 	};
 
 	//init control panel
 	params = new WCMParams();
+	window.params = params;
+
+	var input = WebMidi.getInputByName("nanoKONTROL2 MIDI 1");
+	input.addListener("controlchange", "all", function (e) {
+		if (e.controller.number === 1) {
+			console.log("Control Change message:", e.controller.number, e.value);
+			params.zoom = (e.value / 127) * 5;
+		}
+	});
+
 	gui = new dat.GUI();
 	gui
 		.add(params, 'zoom', 0.1, 5)
@@ -191,7 +214,7 @@ function onCamMetaDataLoaded() {
 	//handle WebGL context lost
 	renderer.domElement.addEventListener(
 		'webglcontextlost',
-		function(event) {
+		function (event) {
 			prompt.style.display = 'inline';
 			prompt.innerHTML = 'WebGL Context Lost. Please try reloading the page.';
 		},

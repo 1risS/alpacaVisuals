@@ -66,9 +66,6 @@ a{
 }
 
 .openBtn{
-	background: url("../img/open.png");
-	background-size: 20px;
-	background-repeat: no-repeat;
 	width: 20px;
 	height: 20px;
 	position: absolute;
@@ -79,8 +76,6 @@ a{
 	position: absolute;
 	right: 30px;
 	top: 26px;
-	background: url("../img/close.png");
-	background-repeat: no-repeat;
 	width: 24px;
 	height: 24px;
 	cursor: pointer;

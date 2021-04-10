@@ -106,7 +106,7 @@ function onCamMetaDataLoaded() {
 	params = new WCMParams();
 	window.params = params;
 
-	var input = WebMidi.getInputByName("nanoKONTROL2 MIDI 1");
+	var input = WebMidi.getInputByName("nanoKONTROL2 SLIDER/KNOB");
 	input.addListener("controlchange", "all", function (e) {
 		if (e.controller.number === 1) {
 			console.log("Control Change message:", e.controller.number, e.value);
@@ -114,35 +114,35 @@ function onCamMetaDataLoaded() {
 		}
 	});
 
-	gui = new dat.GUI();
-	gui
-		.add(params, 'zoom', 0.1, 5)
-		.name('Zoom')
-		.onChange(onParamsChange);
-	gui.add(params, 'zDepth', 0, 1000).name('Z Depth');
-	gui
-		.add(params, 'mOpac', 0, 1)
-		.name('Mesh Opacity')
-		.onChange(onParamsChange);
-	gui
-		.add(params, 'wfOpac', 0, 0.3)
-		.name('Grid Opacity')
-		.onChange(onParamsChange);
-	gui
-		.add(params, 'contrast', 1, 5)
-		.name('Contrast')
-		.onChange(onParamsChange);
-	gui
-		.add(params, 'saturation', 0, 2)
-		.name('Saturation')
-		.onChange(onParamsChange);
-	gui.add(params, 'noiseStrength', 0, 600).name('Noise Strength');
-	gui.add(params, 'noiseSpeed', 0, 0.05).name('Noise Speed');
-	gui.add(params, 'noiseScale', 0, 0.1).name('Noise Scale');
-	gui.add(params, 'invertZ').name('Invert Z');
-	//gui.add(this, 'saveImage').name('Snapshot');
-	gui.close();
-	gui.domElement.style.display = 'none';
+	// gui = new dat.GUI();
+	// gui
+	// 	.add(params, 'zoom', 0.1, 5)
+	// 	.name('Zoom')
+	// 	.onChange(onParamsChange);
+	// gui.add(params, 'zDepth', 0, 1000).name('Z Depth');
+	// gui
+	// 	.add(params, 'mOpac', 0, 1)
+	// 	.name('Mesh Opacity')
+	// 	.onChange(onParamsChange);
+	// gui
+	// 	.add(params, 'wfOpac', 0, 0.3)
+	// 	.name('Grid Opacity')
+	// 	.onChange(onParamsChange);
+	// gui
+	// 	.add(params, 'contrast', 1, 5)
+	// 	.name('Contrast')
+	// 	.onChange(onParamsChange);
+	// gui
+	// 	.add(params, 'saturation', 0, 2)
+	// 	.name('Saturation')
+	// 	.onChange(onParamsChange);
+	// gui.add(params, 'noiseStrength', 0, 600).name('Noise Strength');
+	// gui.add(params, 'noiseSpeed', 0, 0.05).name('Noise Speed');
+	// gui.add(params, 'noiseScale', 0, 0.1).name('Noise Scale');
+	// gui.add(params, 'invertZ').name('Invert Z');
+	// //gui.add(this, 'saveImage').name('Snapshot');
+	// gui.close();
+	// gui.domElement.style.display = 'none';
 
 	//Init 3D
 	scene = new THREE.Scene();
@@ -155,7 +155,7 @@ function onCamMetaDataLoaded() {
 	prompt.style.display = 'none';
 	title.style.display = 'inline';
 	container.style.display = 'inline';
-	gui.domElement.style.display = 'inline';
+	// gui.domElement.style.display = 'inline';
 
 	videoInTexture = new THREE.VideoTexture(videoIn);
 
@@ -337,7 +337,7 @@ function onWheel(event) {
 	params.zoom = Math.min(params.zoom, 5);
 
 	//update gui slider
-	gui.__controllers[0].updateDisplay();
+	// gui.__controllers[0].updateDisplay();
 }
 
 function saveImage() {

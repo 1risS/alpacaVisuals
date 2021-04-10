@@ -34,7 +34,6 @@ var meshMaterial;
 var container;
 var params;
 var title, info, prompt;
-var zoom = 1;
 
 function init() {
 	//init HTML elements
@@ -97,7 +96,7 @@ function subscribeToAllMIDIInputs() {
 			const ccv = e.value;
 
 			if (ccn === 0) params.zDepth = rescale(ccv, -2000, 2000);
-			if (ccn === 1) zoom = rescale(ccv, 0.01, 10);
+			if (ccn === 1) params.zoom = rescale(ccv, 0.01, 10);
 			if (ccn === 16) params.wfOpac = rescale(ccv, 0, 0.3);
 			if (ccn === 23) mouseX = rescale(ccv, -2 * Math.PI, 2 * Math.PI);
 			if (ccn === 7) mouseY = rescale(ccv, -2 * Math.PI, 2 * Math.PI);
@@ -296,7 +295,7 @@ function animate() {
 }
 
 function render() {
-	mainGroup.scale.addScalar(((zoom * tiltAmount - mainGroup.scale.x) * tiltSpeed));
+	mainGroup.scale.addScalar(((params.zoom * tiltAmount - mainGroup.scale.x) * tiltSpeed));
 	mainGroup.rotation.x += (mouseY * tiltAmount - mainGroup.rotation.x) * tiltSpeed;
 	mainGroup.rotation.y += (mouseX * tiltAmount - mainGroup.rotation.y) * tiltSpeed;
 	//camera.lookAt(camera.target);

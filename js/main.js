@@ -97,7 +97,13 @@ function subscribeToAllMIDIInputs() {
 
 			if (ccn === 0) params.zDepth = rescale(ccv, -2000, 2000);
 			if (ccn === 1) params.zoom = rescale(ccv, 0.01, 10);
+			if (ccn === 2) params.contrast = rescale(ccv, 1, 5);
+			if (ccn === 3) params.saturation = rescale(ccv, 0, 2);
 			if (ccn === 16) params.wfOpac = rescale(ccv, 0, 0.3);
+			if (ccn === 17) params.mOpac = rescale(ccv, 0, 1);
+			if (ccn === 18) params.noiseStrength = rescale(ccv, 0, 600);
+			if (ccn === 19) params.noiseSpeed = rescale(ccv, 0, 0.05);
+			if (ccn === 20) params.noiseScale = rescale(ccv, 0, 0.1);
 			if (ccn === 23) mouseX = rescale(ccv, -2 * Math.PI, 2 * Math.PI);
 			if (ccn === 7) mouseY = rescale(ccv, -2 * Math.PI, 2 * Math.PI);
 

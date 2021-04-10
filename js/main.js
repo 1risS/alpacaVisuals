@@ -34,7 +34,7 @@ var meshMaterial;
 var container;
 var params;
 var title, info, prompt;
-var zoomTween;
+var nextZoom, zoomTween;
 
 function init() {
 	//init HTML elements
@@ -91,9 +91,12 @@ function enableMIDI() {
 }
 
 function setZoom(newValue, duration) {
+	if (newValue == nextZoom) return;
+	// console.log("set to new zoom:", newValue, " previous:", nextZoom);
+	nextZoom = newValue;
 	if (zoomTween) zoomTween.stop();
 	zoomTween = new TWEEN.Tween(params)
-		.to({ zoom: newValue }, duration)
+		.to({ zoom: nextZoom }, duration)
 		.easing(TWEEN.Easing.Quadratic.Out)
 		.onUpdate(() => {
 			mainGroup.scale.setScalar(params.zoom);

@@ -34,6 +34,7 @@ var meshMaterial;
 var container;
 var params;
 var title, info, prompt;
+var zoomTween;
 
 function init() {
 	//init HTML elements
@@ -89,6 +90,17 @@ function enableMIDI() {
 	});
 }
 
+function setZoom(newValue, duration) {
+	if (zoomTween) zoomTween.stop();
+	zoomTween = new TWEEN.Tween(params)
+		.to({ zoom: newValue }, duration)
+		.easing(TWEEN.Easing.Quadratic.Out)
+		.onUpdate(() => {
+			mainGroup.scale.setScalar(params.zoom);
+		})
+		.start();
+}
+
 function subscribeToAllMIDIInputs() {
 	WebMidi.inputs.forEach(input => {
 		input.addListener("controlchange", "all", function (e) {
@@ -96,7 +108,9 @@ function subscribeToAllMIDIInputs() {
 			const ccv = e.value;
 
 			if (ccn === 0) params.zDepth = rescale(ccv, -2000, 2000);
-			if (ccn === 1) params.zoom = rescale(ccv, 0.01, 10);
+			if (ccn === 1) {
+				setZoom(rescale(ccv, 0.01, 10), 250);
+			}
 			if (ccn === 16) params.wfOpac = rescale(ccv, 0, 0.3);
 			if (ccn === 23) mouseX = rescale(ccv, -2 * Math.PI, 2 * Math.PI);
 			if (ccn === 7) mouseY = rescale(ccv, -2 * Math.PI, 2 * Math.PI);
@@ -287,15 +301,15 @@ function getZDepths() {
 	geometry.verticesNeedUpdate = true;
 }
 
-function animate() {
+function animate(time) {
 	getZDepths();
 	stats.update();
 	requestAnimationFrame(animate);
+	TWEEN.update(time)
 	render();
 }
 
 function render() {
-	mainGroup.scale.setScalar(params.zoom);
 	mainGroup.rotation.x += (mouseY * tiltAmount - mainGroup.rotation.x) * tiltSpeed;
 	mainGroup.rotation.y += (mouseX * tiltAmount - mainGroup.rotation.y) * tiltSpeed;
 	//camera.lookAt(camera.target);

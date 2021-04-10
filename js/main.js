@@ -105,13 +105,33 @@ function onCamMetaDataLoaded() {
 	//init control panel
 	params = new WCMParams();
 	window.params = params;
+	
+	var rescale = (v, min, max) => (v / 127) * (max - min) + min
 
 	var input = WebMidi.getInputByName("nanoKONTROL2 SLIDER/KNOB");
 	input.addListener("controlchange", "all", function (e) {
-		if (e.controller.number === 1) {
-			console.log("Control Change message:", e.controller.number, e.value);
-			params.zoom = (e.value / 127) * 5;
+		const ccn = e.controller.number;
+		const ccv = e.value;
+		
+		if (ccn === 0) {
+			params.zDepth = rescale(ccv, -2000, 2000);
 		}
+		if (ccn === 1) {
+			params.zoom = rescale(ccv, 0.01, 10);
+		}
+		if (ccn === 16) {
+			params.wfOpac = rescale(ccv, 0, 0.3);
+			
+		}
+
+		if (ccn === 23) {
+			mouseX = rescale(ccv, -2*Math.PI, 2*Math.PI);
+		}
+		if (ccn === 7) {
+			mouseY = rescale(ccv, -2*Math.PI, 2*Math.PI);
+		}
+
+		onParamsChange();
 	});
 
 	// gui = new dat.GUI();

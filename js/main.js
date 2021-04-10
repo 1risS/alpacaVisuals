@@ -219,7 +219,6 @@ function onCamMetaDataLoaded() {
 	ctx = vidCanvas.getContext('2d');
 
 	//init listeners
-	document.addEventListener('mousemove', onMouseMove, false);
 	window.addEventListener('resize', onResize, false);
 	document.addEventListener('mousewheel', onWheel, false);
 	container.addEventListener('click', hideInfo, false);
@@ -286,11 +285,6 @@ function getZDepths() {
 		}
 	}
 	geometry.verticesNeedUpdate = true;
-}
-
-function onMouseMove(event) {
-	mouseX = (event.clientX - windowHalfX) / windowHalfX;
-	mouseY = (event.clientY - windowHalfY) / windowHalfY;
 }
 
 function animate() {

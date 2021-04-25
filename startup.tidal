@@ -7,7 +7,7 @@ import System.IO (hSetEncoding, stdout, utf8)
 hSetEncoding stdout utf8
 
 -- total latency = oLatency + cFrameTimespan
-tidal <- startTidal (superdirtTarget {oLatency = 0.1, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cVerbose = True, cFrameTimespan = 1/20})
+tidal <- startTidal (superdirtTarget {oLatency = 0.3, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cVerbose = True, cFrameTimespan = 1/20})
 
 :{
 let only = (hush >>)
@@ -81,7 +81,13 @@ let m name num chan = p (name ++ show num) . (|< s "midi") . (|< midichan chan)
     mesh n v = m "mesh" n 1 $ ccv (range 0 127 v) # ccn n
     meshZ v = mesh 0 v
     meshZoom v = mesh 1 v
+    meshContrast v = mesh 2 v
+    meshSaturation v = mesh 3 v
     meshWfOpac v = mesh 16 v
+    meshMOpac v = mesh 17 v
+    meshNoiseStrength v = mesh 18 v
+    meshNoiseSpeed v = mesh 19 v
+    meshNoiseScale v = mesh 20 v
     meshRotX v = mesh 7 v
     meshRotY v = mesh 23 v
 :}
